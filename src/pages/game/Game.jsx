@@ -54,7 +54,6 @@ const Game = () => {
       ) {
         setWinner(currentBoard[a]);
         updateScore(steps);
-        resetGame();
         break;
       }
     }
@@ -67,17 +66,27 @@ const Game = () => {
     ]);
   };
 
+  const handleCellClick = (index) => {
+    if (!winner) {
+      setCell(index);
+    }
+  };
+
+  useEffect(() => {
+    if (winner) {
+      const timer = setTimeout(() => {
+        resetGame();
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [winner]);
+
   const resetGame = () => {
     setBoard(initialBoard);
     setWinner(null);
     setPlayer("X");
     setSteps(0);
-  };
-
-  const handleCellClick = (index) => {
-    if (!winner) {
-      setCell(index);
-    }
   };
 
   const handleGoBack = () => {
